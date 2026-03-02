@@ -1,0 +1,199 @@
+/* RESET & VARIABLES */
+:root {
+    --bg-color: #ffffff;
+    --text-primary: #111111;
+    --text-secondary: #666666;
+    --text-tertiary: #999999;
+    --hover-bg: #f5f5f7; /* That subtle grey Apple/Rauno look */
+    --accent: #000000;
+    --spacing-unit: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* The key to the look */
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased; /* Makes fonts look crisp on Mac */
+}
+
+/* LAYOUT CONTAINER */
+/* This keeps the site narrow and focused, like Rauno.me */
+.container {
+    max-width: 640px; 
+    margin: 0 auto;
+    padding: 80px 24px; /* Top/Bottom padding, Side padding */
+}
+
+/* TYPOGRAPHY */
+h1 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+}
+
+p {
+    font-size: 15px;
+    color: var(--text-secondary);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* HEADER SECTION */
+header {
+    margin-bottom: 60px;
+}
+
+.bio {
+    margin-bottom: 24px;
+    max-width: 90%;
+}
+
+.highlight {
+    color: var(--text-primary);
+    font-weight: 500;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.links a {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-right: 16px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.links a:hover {
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--text-primary);
+}
+
+/* SECTIONS */
+.section-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+    padding-left: 12px; /* Align with the hover box */
+}
+
+.spacer {
+    height: 60px;
+}
+
+/* PROJECT ROWS - THE CORE FEATURE */
+.project-row {
+    display: block;
+    padding: 16px 12px;
+    margin: 0 -12px; /* Negative margin pulls it out so text aligns */
+    border-radius: 8px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth easing */
+    cursor: pointer;
+}
+
+/* The Magic Hover Effect */
+.project-row:hover {
+    background-color: var(--hover-bg);
+    transform: scale(1.01); /* Subtle zoom */
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+}
+
+.project-row h2 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.year {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    font-feature-settings: "tnum"; /* Tabular numbers look better */
+}
+
+.project-row p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    max-width: 95%;
+}
+
+.tech-stack {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-family: 'Inter', monospace; /* Monospace for code vibes */
+}
+
+/* WRITING/PLAY ROWS (Simpler version) */
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 12px;
+    margin: 0 -12px;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    transition: background-color 0.2s;
+}
+
+.item-row:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.item-title {
+    font-size: 14px;
+}
+
+.arrow {
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.2s;
+}
+
+.item-row:hover .arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* FOOTER */
+footer {
+    margin-top: 80px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 24px;
+}
+
+footer p {
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+
+/* MOBILE ADJUSTMENTS */
+@media (max-width: 600px) {
+    .container {
+        padding: 40px 20px;
+    }
+    
+    .project-header {
+        flex-direction: column;
+    }
+    
+    .year {
+        display: none; /* Hide year on very small screens to save space */
+    }
+}
