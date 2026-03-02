@@ -3,95 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abhinay Kalkhanday | Full Stack Developer</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f9fafb;
-            color: #1f2937;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            max-width: 450px;
-            text-align: center;
-            border: 1px solid #e5e7eb;
-        }
-        h1 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.5rem;
-            color: #111827;
-        }
-        h2 {
-            margin: 0 0 1.5rem 0;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #6b7280;
-        }
-        p {
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            color: #374151;
-        }
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn {
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        .btn-primary {
-            background-color: #2563eb;
-            color: white;
-            border: 1px solid #2563eb;
-        }
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-        }
-        .btn-outline {
-            background-color: transparent;
-            color: #374151;
-            border: 1px solid #d1d5db;
-        }
-        .btn-outline:hover {
-            border-color: #9ca3af;
-            background-color: #f3f4f6;
-        }
-    </style>
+    <title>Abhinay Kalkhanday | Developer</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="card">
-        <h1>Abhinay Kalkhanday</h1>
-        <h2>Full Stack Developer</h2>
+    <main class="container">
         
-        <p>
-            Welcome! I am currently updating my portfolio to showcase my latest projects, 
-            including recent live deployments and AI/OCR tools.
-            <br><br>
-            In the meantime, you can review my code repositories and professional history below.
-        </p>
+        <header>
+            <h1>Abhinay Kalkhanday</h1>
+            <p class="bio">
+                Building accessible web interfaces & fine-tuning AI behavior.<br>
+                Currently an Intern at <span class="highlight">JEE/NEET Coaching Institute</span>.
+            </p>
+            <div class="links">
+                <a href="#">Resume</a>
+                <a href="#">GitHub</a>
+                <a href="#">Email</a>
+            </div>
+        </header>
 
-        <div class="btn-group">
-            <a href="https://github.com/Abhinay-kal" class="btn btn-primary">View GitHub</a>
-            <a href="https://www.linkedin.com/in/abhinay-kalkhanday-35313724b/" class="btn btn-outline">LinkedIn</a>
-        </div>
-    </div>
+        <div class="spacer"></div>
 
+        <section>
+            <h3 class="section-title">Selected Work</h3>
+            
+            <a href="#" class="project-row">
+                <div class="project-content">
+                    <div class="project-header">
+                        <h2>Coaching Platform V2</h2>
+                        <span class="year">2026</span>
+                    </div>
+                    <p>Optimized news portals for high-traffic exam results. Reduced latency and improved mobile responsiveness for thousands of students.</p>
+                    <div class="tech-stack">WordPress · Elementor · CSS</div>
+                </div>
+            </a>
+
+            <a href="#" class="project-row">
+                <div class="project-content">
+                    <div class="project-header">
+                        <h2>Project Fang Yuan</h2>
+                        <span class="year">2026</span>
+                    </div>
+                    <p>Fine-tuning Llama-3-70B to replicate complex character psychology, decision patterns, and cold logic.</p>
+                    <div class="tech-stack">Python · PyTorch · NLP</div>
+                </div>
+            </a>
+
+            <a href="#" class="project-row">
+                <div class="project-content">
+                    <div class="project-header">
+                        <h2>Voter Roll OCR Engine</h2>
+                        <span class="year">2026</span>
+                    </div>
+                    <p>Building a pipeline to extract and structure messy data from legacy PDF voter rolls into clean JSON formats.</p>
+                    <div class="tech-stack">Python · Tesseract · Poppler</div>
+                </div>
+            </a>
+
+             <a href="#" class="project-row">
+                <div class="project-content">
+                    <div class="project-header">
+                        <h2>UI Experiments</h2>
+                        <span class="year">2026</span>
+                    </div>
+                    <p>Exploring minimalist interfaces and OSINT data visualization concepts.</p>
+                    <div class="tech-stack">Figma · Design Systems</div>
+                </div>
+            </a>
+
+        </section>
+
+        <div class="spacer"></div>
+
+        <section>
+            <h3 class="section-title">Writing & Play</h3>
+            
+            <a href="#" class="item-row">
+                <span class="item-title">The Ethics of AI Simulation</span>
+                <span class="arrow">→</span>
+            </a>
+            
+            <a href="#" class="item-row">
+                <span class="item-title">Learning OSINT: Digital Footprints</span>
+                <span class="arrow">→</span>
+            </a>
+        </section>
+
+        <footer>
+            <p>© 2026 Abhinay Kalkhanday. Jaipur, India.</p>
+        </footer>
+
+    </main>
 </body>
 </html>
