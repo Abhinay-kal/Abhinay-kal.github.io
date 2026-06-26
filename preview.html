@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhinay Kalkhanday</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.0/index.min.css">
+    <style>
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .hero {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            min-height: 100vh; text-align: center;
+            padding: 20px;
+        }
+        .hero h1 {
+            font-size: 3rem; margin-bottom: 10px;
+            background: -webkit-linear-gradient(#fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero h2 {
+            font-size: 1.5rem; font-weight: 300;
+            color: #ccc; margin-bottom: 30px;
+        }
+        .btn {
+            padding: 12px 24px; border: none; border-radius: 30px;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: white; font-size: 1rem; cursor: pointer;
+            text-decoration: none; transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4);
+        }
+        .btn:hover { transform: translateY(-3px); }
+        
+        .container {
+            max-width: 800px; margin: 0 auto; padding: 60px 20px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px; padding: 30px;
+            margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.2);
+        }
+        .card h3 { margin-top: 0; color: #00c6ff; }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Abhinay Kalkhanday</h1>
+        <h2>Software Engineering Intern @ Matrix Education</h2>
+        <a href="#about" class="btn">View My Work</a>
+    </div>
+
+    <div class="container" id="about">
+        <div class="card">
+            <h3>About Me</h3>
+            <p>I'm a B.Tech Computer Science student specializing in IoT & Intelligent Systems at Manipal University Jaipur. I'm passionate about performance engineering, distributed systems, and building highly scalable platforms.</p>
+        </div>
+        
+        <div class="card">
+            <h3>Featured Project</h3>
+            <p><strong>Content Operations Automation Platform</strong><br>
+            A stateful job orchestration system for browser workloads using Node.js, Express, and Playwright, featuring persistent queues and auto-recovery mechanisms.</p>
+        </div>
+    </div>
+</body>
+</html>

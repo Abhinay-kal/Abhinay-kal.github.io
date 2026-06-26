@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhinay Kalkhanday | Portfolio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fira-code@5.0.0/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.0/index.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Title Bar -->
+    <div class="titlebar">
+        <div class="titlebar-left">
+            <div class="titlebar-controls">
+                <span class="ctrl-close"></span>
+                <span class="ctrl-minimize"></span>
+                <span class="ctrl-maximize"></span>
+            </div>
+            <div class="titlebar-menu">
+                <span>File</span>
+                <span>Edit</span>
+                <span>View</span>
+                <span>Go</span>
+                <span>Run</span>
+                <span onclick="toggleTerminal()" style="cursor:pointer;">Terminal</span>
+                <span>Help</span>
+            </div>
+        </div>
+        <div class="titlebar-center">Abhinay Kalkhanday | Portfolio</div>
+        <div class="titlebar-right">\n            <div class="titlebar-btn" title="Toggle Live Preview" onclick="togglePreview()"><i class="fas fa-columns"></i></div>
+            <div class="titlebar-btn"><i class="fas fa-search"></i></div>
+            <div class="titlebar-btn"><i class="fas fa-ellipsis-h"></i></div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Activity Bar -->
+        <div class="activity-bar">
+            <div class="activity-icon active" title="Explorer" onclick="switchActivity(this, 'Explorer')"><i class="fas fa-copy"></i></div>
+            <div class="activity-icon" title="Search" onclick="switchActivity(this, 'Search')"><i class="fas fa-search"></i></div>
+            <div class="activity-icon" title="Source Control" onclick="switchActivity(this, 'Source Control')"><i class="fas fa-code-branch"></i></div>
+            <div class="activity-icon" title="Run & Debug" onclick="switchActivity(this, 'Run & Debug')"><i class="fas fa-bug"></i></div>
+            <div class="activity-icon" title="Extensions" onclick="switchActivity(this, 'Extensions')"><i class="fas fa-puzzle-piece"></i></div>
+            <div class="activity-bottom">
+                <div class="activity-icon" title="Accounts" onclick="alert('Accounts sync is not available in demo')"><i class="fas fa-user-circle"></i></div>
+                <div class="activity-icon" title="Settings" onclick="alert('Settings panel is under construction!')"><i class="fas fa-cog"></i></div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <span>abhinay-kalkhanday</span>
+                <i class="fas fa-ellipsis-h" style="cursor:pointer; font-size:12px;"></i>
+            </div>
+            <div class="file-tree">
+                <div class="tree-item folder">
+                    <i class="fas fa-chevron-down" style="font-size:10px; width:12px;"></i>
+                    <i class="fas fa-folder-open file-icon icon-folder"></i>
+                    <span>src</span>
+                </div>
+                <div class="tree-item file" data-file="home" onclick="openFile('home')">
+                    <i class="fab fa-react file-icon icon-ts"></i>
+                    <span>home.tsx</span>
+                </div>
+                <div class="tree-item file" data-file="about" onclick="openFile('about')">
+                    <i class="fab fa-html5 file-icon icon-html"></i>
+                    <span>about.html</span>
+                </div>
+                <div class="tree-item file" data-file="projects" onclick="openFile('projects')">
+                    <i class="fab fa-js file-icon icon-js"></i>
+                    <span>projects.js</span>
+                </div>
+                <div class="tree-item file" data-file="skills" onclick="openFile('skills')">
+                    <i class="fas fa-brackets-curly file-icon icon-json" style="font-size:11px;">{}</i>
+                    <span>skills.json</span>
+                </div>
+                <div class="tree-item file" data-file="experience" onclick="openFile('experience')">
+                    <i class="fab fa-js file-icon icon-ts"></i>
+                    <span>experience.ts</span>
+                </div>
+                <div class="tree-item file" data-file="contact" onclick="openFile('contact')">
+                    <i class="fab fa-css3-alt file-icon icon-css"></i>
+                    <span>contact.css</span>
+                </div>
+                <div class="tree-item folder" style="margin-top: 8px;">
+                    <i class="fas fa-chevron-right" style="font-size:10px; width:12px;"></i>
+                    <i class="fas fa-folder file-icon icon-folder"></i>
+                    <span>public</span>
+                </div>
+                <div class="tree-item file" data-file="readme" onclick="openFile('readme')">
+                    <i class="fas fa-book file-icon icon-md"></i>
+                    <span>README.md</span>
+                </div>
+                <div class="tree-item file" onclick="openFile('resume')">
+                    <i class="fas fa-file-pdf file-icon icon-pdf"></i>
+                    <span>Abhinay_Kalkhanday_Resume.pdf</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editor Area -->
+        <div class="resizer-x" id="sidebarResizer"></div>
+        <div class="editor-area">
+            <div class="editor-left" id="editorLeft" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+
+            <div class="tabs-container" id="tabsContainer">
+                <div class="tab active" data-file="home" onclick="switchTab('home')">
+                    <i class="fab fa-react" style="color:#61dafb; font-size:12px;"></i>
+                    <span>home.tsx</span>
+                    <span class="tab-close" onclick="event.stopPropagation(); closeTab('home')">×</span>
+                </div>
+            </div>
+
+            <div class="breadcrumb" id="breadcrumb">
+                <span>abhinay-kalkhanday</span>
+                <i class="fas fa-chevron-right" style="font-size:8px;"></i>
+                <span>src</span>
+                <i class="fas fa-chevron-right" style="font-size:8px;"></i>
+                <span>home.tsx</span>
+            </div>
+
+            <div class="editor-content" id="editorContent"></div>
+
+            <div class="resizer-y" id="terminalResizer"></div>
+            <div class="terminal-panel" id="terminalPanel">
+                <div class="terminal-header">
+                    <div class="terminal-tabs">
+                        <span class="terminal-tab active">TERMINAL</span>
+                        <span class="terminal-tab">PROBLEMS</span>
+                        <span class="terminal-tab">OUTPUT</span>
+                    </div>
+                    <div class="terminal-actions">
+                        <span title="New Terminal"><i class="fas fa-plus"></i></span>
+                        <span title="Split Terminal"><i class="fas fa-columns"></i></span>
+                        <span title="Kill Terminal" onclick="clearTerminal()"><i class="fas fa-trash"></i></span>
+                        <span title="Close Panel" onclick="toggleTerminal()" style="margin-left:8px;"><i class="fas fa-times"></i></span>
+                    </div>
+                </div>
+                <div class="terminal-body" id="terminalBody">
+                    <div class="terminal-line" style="color: var(--text-secondary);">Welcome! Type 'help' to see available commands.</div>
+                    <div class="terminal-input-line">
+                        <span class="terminal-prompt">abhinay@portfolio:~$ </span>
+                        <input type="text" class="terminal-input" id="terminalInput" autofocus spellcheck="false" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        
+            </div>
+            
+            <div class="resizer-x hidden" id="previewResizer"></div>
+            
+            <div class="editor-right hidden" id="previewPane" style="width: 50%; display: flex; flex-direction: column; border-left: 1px solid var(--border-color); background: #fff;">
+                <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 6px 12px; font-size: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color);">
+                    <span><i class="fas fa-globe"></i> Live Preview</span>
+                    <div>
+                        <span style="cursor:pointer; margin-right: 12px;" onclick="window.open('preview.html', '_blank')" title="Open in New Tab"><i class="fas fa-external-link-alt"></i></span>
+                        <span style="cursor:pointer;" onclick="togglePreview()"><i class="fas fa-times"></i></span>
+                    </div>
+                </div>
+                <iframe src="preview.html" style="flex: 1; border: none; width: 100%;"></iframe>
+            </div>
+        </div>
+
+        <!-- Copilot Panel -->
+        <div class="copilot-panel" id="copilotPanel">
+            <div class="copilot-header">
+                <h3><i class="fas fa-robot"></i> Abhinay's Copilot</h3>
+                <span class="copilot-close" onclick="toggleCopilot()"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="copilot-messages" id="copilotMessages">
+                <div class="copilot-welcome">
+                    <div class="avatar">👋</div>
+                    <h4>Hi! I'm Abhinay's Copilot</h4>
+                    <p>Ask me anything about his projects, skills, experience, or achievements.</p>
+                </div>
+            </div>
+            <div class="copilot-suggestions" id="copilotSuggestions">
+                <div class="copilot-suggestion" onclick="askCopilot('Tell me about Abhinay?')">Tell me about Abhinay?</div>
+                <div class="copilot-suggestion" onclick="askCopilot('What projects has Abhinay built?')">Projects</div>
+                <div class="copilot-suggestion" onclick="askCopilot('Tell me about his work experience')">Work experience</div>
+                <div class="copilot-suggestion" onclick="askCopilot('What is his tech stack?')">Tech stack</div>
+                <div class="copilot-suggestion" onclick="askCopilot('How can I contact Abhinay?')">Contact info</div>
+                <div class="copilot-suggestion" onclick="askCopilot('Tell me about his education')">Education</div>
+                <div class="copilot-suggestion" onclick="askCopilot('Show live preview')" style="background: rgba(0, 198, 255, 0.2); color: #00c6ff; border: 1px solid #00c6ff;">Show Live Preview <i class="fas fa-columns"></i></div>
+            </div>
+            <div class="copilot-input-area">
+                <div class="copilot-input-wrapper">
+                    <textarea class="copilot-input" id="copilotInput" placeholder="Ask about Abhinay..." rows="1"></textarea>
+                    <button class="copilot-send" onclick="sendCopilotMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+            <div class="copilot-footer">
+                <span>3 msgs left · AI can make mistakes · Contact Abhinay directly for important info</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="statusbar">
+        <div class="statusbar-left">
+            <div class="statusbar-item"><i class="fas fa-code-branch"></i> main</div>
+            <div class="statusbar-item"><i class="fas fa-sync-alt"></i> Abhinay's Portfolio</div>
+            <div class="statusbar-item"><i class="fas fa-circle" style="font-size:8px; color: #4ec9b0;"></i> Copilot</div>
+        </div>
+        <div class="statusbar-right">
+            <div class="statusbar-item" id="statusLang">TypeScript</div>
+            <div class="statusbar-item">UTF-8</div>
+            <div class="statusbar-item">Prettier</div>
+            <div class="statusbar-item">💜 Abhinay Dark</div>
+            <div class="statusbar-item" id="statusTime"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
