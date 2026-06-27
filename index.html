@@ -104,7 +104,7 @@
 
         <!-- Editor Area -->
         <div class="resizer-x" id="sidebarResizer"></div>
-        <div class="editor-area">
+        <div class="editor-area" style="display: flex; flex-direction: row;">
             <div class="editor-left" id="editorLeft" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
 
             <div class="tabs-container" id="tabsContainer">
@@ -151,9 +151,9 @@
         
             </div>
             
-            <div class="resizer-x hidden" id="previewResizer"></div>
+            <div class="resizer-x" id="previewResizer"></div>
             
-            <div class="editor-right hidden" id="previewPane" style="width: 50%; display: flex; flex-direction: column; border-left: 1px solid var(--border-color); background: #fff;">
+            <div class="editor-right" id="previewPane" style="width: 50%; display: flex; flex-direction: column; border-left: 1px solid var(--border-color); background: #fff;">
                 <div style="background: var(--bg-secondary); color: var(--text-primary); padding: 6px 12px; font-size: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color);">
                     <span><i class="fas fa-globe"></i> Live Preview</span>
                     <div>
