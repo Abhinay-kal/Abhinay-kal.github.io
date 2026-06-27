@@ -1,107 +1,669 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abhinay Kalkhanday</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.0/index.min.css">
-    <style>
-        body {
-            margin: 0; padding: 0;
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            height: 100vh;
-            overflow-y: auto;
-        }
-        .hero {
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            min-height: 100vh; text-align: center;
-            padding: 20px;
-        }
-        .hero h1 {
-            font-size: 3rem; margin-bottom: 10px;
-            background: -webkit-linear-gradient(#fff, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero h2 {
-            font-size: 1.5rem; font-weight: 300;
-            color: #ccc; margin-bottom: 30px;
-        }
-        .btn {
-            padding: 12px 24px; border: none; border-radius: 30px;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
-            color: white; font-size: 1rem; cursor: pointer;
-            text-decoration: none; transition: transform 0.2s;
-            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4);
-        }
-        .btn:hover { transform: translateY(-3px); }
-        
-        .container {
-            max-width: 800px; margin: 0 auto; padding: 60px 20px;
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px; padding: 30px;
-            margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.2);
-        }
-        .card h3 { margin-top: 0; color: #00c6ff; }
-        
-        #fullscreen-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 10px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            backdrop-filter: blur(5px);
-            display: none;
-            transition: background 0.3s;
-            text-decoration: none;
-            z-index: 1000;
-        }
-        #fullscreen-btn:hover {
-            background: rgba(0, 198, 255, 0.4);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhinay Kalkhanday — Software Engineer</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.0/index.css">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --bg-card: #141414;
+    --bg-card-hover: #1a1a1a;
+    --border: #222;
+    --text: #f5f5f5;
+    --text-muted: #888;
+    --accent: #fff;
+    --tag-bg: #1e1e1e;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  /* NAV */
+  .top-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    background: rgba(10,10,10,0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-nav .logo { font-weight: 600; font-size: 15px; letter-spacing: -0.02em; }
+  .top-nav .nav-links { display: flex; gap: 28px; font-size: 13px; color: var(--text-muted); }
+  .top-nav .nav-links a:hover { color: var(--text); }
+  .top-nav .nav-actions { display: flex; gap: 16px; font-size: 13px; }
+  .top-nav .nav-actions a { color: var(--text-muted); }
+  .top-nav .nav-actions a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    padding: 140px 40px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 60px;
+    font-size: 12px; color: var(--text-muted);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .hero-meta .role { font-size: 13px; color: var(--text); letter-spacing: 0.15em; }
+  .hero-content { max-width: 780px; }
+  .hero-content h1 {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+  }
+  .hero-content h1 .accent { color: var(--text-muted); }
+  .hero-content p {
+    font-size: 17px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 620px;
+    margin-bottom: 40px;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 28px;
+    background: var(--text);
+    color: var(--bg);
+    border-radius: 100px;
+    font-size: 14px; font-weight: 500;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,255,255,0.15); }
+  .hero-cta svg { width: 14px; height: 14px; }
+
+  .hero-bottom {
+    margin-top: 100px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .hero-bottom p {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 680px;
+    line-height: 1.7;
+  }
+
+  /* SECTION */
+  section { padding: 100px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 60px;
+  }
+  .section-header h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .section-header a {
+    font-size: 14px; color: var(--text-muted);
+    transition: color 0.3s;
+  }
+  .section-header a:hover { color: var(--text); }
+
+  /* SERVICES / SKILLS */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .service-card {
+    background: var(--bg);
+    padding: 40px 32px;
+    transition: background 0.4s ease;
+    cursor: default;
+  }
+  .service-card:hover { background: var(--bg-card); }
+  .service-card h3 {
+    font-size: 18px; font-weight: 500;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+  .service-card ul { list-style: none; }
+  .service-card li {
+    font-size: 14px; color: var(--text-muted);
+    padding: 6px 0;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .service-card li::before {
+    content: ''; width: 4px; height: 4px;
+    background: var(--text-muted); border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.4s ease, border-color 0.4s ease;
+    cursor: pointer;
+  }
+  .project-card:hover {
+    transform: translateY(-6px);
+    border-color: #333;
+  }
+  .project-card .img-wrap {
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    background: #111;
+  }
+  .project-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .project-card:hover img { transform: scale(1.05); }
+  .project-card .info { padding: 24px; }
+  .project-card .info h3 {
+    font-size: 20px; font-weight: 500;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .project-card .info span {
+    font-size: 13px; color: var(--text-muted);
+  }
+
+  /* TESTIMONIALS */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .testimonial-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color 0.3s;
+  }
+  .testimonial-card:hover { border-color: #333; }
+  .testimonial-card p {
+    font-size: 15px; line-height: 1.7;
+    margin-bottom: 24px;
+    color: #ddd;
+  }
+  .testimonial-card .author {
+    font-size: 14px; font-weight: 500;
+  }
+  .testimonial-card .role {
+    font-size: 12px; color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* BLOG */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .blog-card {
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--bg-card);
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: pointer;
+  }
+  .blog-card:hover { border-color: #333; transform: translateY(-4px); }
+  .blog-card .date {
+    font-size: 12px; color: var(--text-muted);
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+  .blog-card h3 {
+    font-size: 20px; font-weight: 500;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .blog-card p {
+    font-size: 14px; color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .blog-cta {
+    text-align: center;
+    padding: 40px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--bg-card);
+  }
+  .blog-cta p {
+    font-size: 18px; color: var(--text-muted);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  .blog-cta a {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+  .blog-cta a:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  /* CONTACT */
+  .contact-section { padding: 100px 40px; max-width: 1200px; margin: 0 auto; }
+  .contact-header { margin-bottom: 60px; }
+  .contact-header h2 {
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .contact-header p {
+    font-size: 16px; color: var(--text-muted);
+    max-width: 480px;
+  }
+  .contact-form {
+    max-width: 640px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 18px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    transition: border-color 0.3s;
+    outline: none;
+  }
+  .contact-form input:focus, .contact-form textarea:focus { border-color: #444; }
+  .contact-form textarea { min-height: 160px; resize: vertical; }
+  .contact-form input::placeholder, .contact-form textarea::placeholder { color: #555; }
+  .contact-form button {
+    align-self: flex-start;
+    padding: 16px 32px;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .contact-form button:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,255,255,0.15); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 80px 40px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+  .footer-brand h3 {
+    font-size: 28px; font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .footer-brand p {
+    font-size: 14px; color: var(--text-muted);
+    max-width: 320px;
+    line-height: 1.6;
+  }
+  .footer-col h4 {
+    font-size: 12px; color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-col a {
+    font-size: 14px; color: var(--text);
+    transition: color 0.3s;
+  }
+  .footer-col a:hover { color: var(--text-muted); }
+  .footer-col .email {
+    font-size: 14px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+  }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-muted);
+  }
+  .footer-bottom .framer-note { max-width: 400px; line-height: 1.6; }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .top-nav { padding: 14px 20px; }
+    .top-nav .nav-links { display: none; }
+    .hero { padding: 120px 20px 60px; }
+    section { padding: 60px 20px; }
+    .hero-meta { flex-direction: column; gap: 12px; align-items: flex-start; }
+    .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+    .contact-section { padding: 60px 20px; }
+    footer { padding: 60px 20px 30px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  }
+
+  /* Full Screen Button */
+  #fullscreen-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      backdrop-filter: blur(5px);
+      display: none;
+      transition: background 0.3s;
+      text-decoration: none;
+      z-index: 9999;
+  }
+  #fullscreen-btn:hover {
+      background: rgba(0, 198, 255, 0.4);
+  }
+</style>
 </head>
 <body>
-    <div class="hero">
-        <h1>Abhinay Kalkhanday</h1>
-        <h2>Software Engineering Intern @ Matrix Education</h2>
-        <a href="#about" class="btn">View My Work</a>
-    </div>
 
-    <div class="container" id="about">
-        <div class="card">
-            <h3>About Me</h3>
-            <p>I'm a B.Tech Computer Science student specializing in IoT & Intelligent Systems at Manipal University Jaipur. I'm passionate about performance engineering, distributed systems, and building highly scalable platforms.</p>
-        </div>
-        
-        <div class="card">
-            <h3>Featured Project</h3>
-            <p><strong>Content Operations Automation Platform</strong><br>
-            A stateful job orchestration system for browser workloads using Node.js, Express, and Playwright, featuring persistent queues and auto-recovery mechanisms.</p>
-        </div>
-    </div>
-    
-    <a href="#" id="fullscreen-btn" onclick="window.open(window.location.href, '_blank'); return false;">
-        <svg style="width:14px; height:14px; vertical-align:middle; margin-right:6px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
-        View Full Screen
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="#hero-section" class="logo">Abhinay</a>
+  <div class="nav-links">
+    <a href="#hero-section">Home</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-actions">
+    <a href="https://github.com" target="_blank">GitHub</a>
+    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero-section">
+  <div class="hero-meta">
+    <span class="role">SOFTWARE ENGINEER</span>
+    <span>©2026 / BUILDING SINCE 2024</span>
+  </div>
+  <div class="hero-content fade-in">
+    <h1>Hey!<br><span class="accent">I'm Abhinay, a software engineering student at Manipal University Jaipur, currently working at <span style="color:var(--text)">Matrix Education</span>, building scalable systems and automation platforms.</span></h1>
+    <p>I'm a software engineering intern with a strong focus on building modern, scalable, and performance-driven systems. Over the past year, I've optimized production websites serving 31k monthly visitors, built distributed automation platforms, and designed ML-powered pipelines for real-world data challenges.</p>
+    <a href="#projects" class="hero-cta">
+      View Projects
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    
-    <script>
-        // Only show the button if we are inside an iframe
-        if (window.self !== window.top) {
-            document.getElementById('fullscreen-btn').style.display = 'block';
-        }
-    </script>
+  </div>
+  <div class="hero-bottom fade-in">
+    <p>From concept to production. Reliable, scalable systems built to move fast, stay resilient, and perform under real-world load, driven by structured architecture, distributed workflows, and intentional engineering.</p>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header fade-in">
+    <h2>Expertise</h2>
+  </div>
+  <div class="services-grid fade-in">
+    <div class="service-card">
+      <h3>Backend Development</h3>
+      <ul>
+        <li>FastAPI</li>
+        <li>Express.js / Node.js</li>
+        <li>REST APIs</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <h3>Databases & Infrastructure</h3>
+      <ul>
+        <li>PostgreSQL / Redis / SQLite</li>
+        <li>Docker / Cloudflare</li>
+        <li>GitHub Actions</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <h3>Automation & Orchestration</h3>
+      <ul>
+        <li>Playwright</li>
+        <li>Browser Automation</li>
+        <li>Job Queues / Workflows</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <h3>ML/AI & Computer Vision</h3>
+      <ul>
+        <li>Scikit-learn / spaCy</li>
+        <li>OpenCV / Tesseract OCR</li>
+        <li>Predictive Models</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header fade-in">
+    <h2>Featured Projects</h2>
+    <a href="https://github.com" target="_blank">View All Work →</a>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card fade-in">
+      <div class="img-wrap"><img src="https://image.qwenlm.ai/public_source/7ed4342e-3061-4aef-8046-d5bdaa797c00/109758651-5a36-4795-9820-0e57564c50fd.png" alt="Content Operations Automation"></div>
+      <div class="info">
+        <h3>Content Operations Automation</h3>
+        <span>Node.js · Express.js · Playwright · SQLite</span>
+      </div>
+    </div>
+    <div class="project-card fade-in">
+      <div class="img-wrap"><img src="https://image.qwenlm.ai/public_source/7ed4342e-3061-4aef-8046-d5bdaa797c00/1bfd255d3-1655-4d2c-8857-358154f51273.png" alt="Judicial Transparency Analytics"></div>
+      <div class="info">
+        <h3>Judicial Transparency Analytics</h3>
+        <span>FastAPI · PostgreSQL · Redis · Celery · Next.js</span>
+      </div>
+    </div>
+    <div class="project-card fade-in">
+      <div class="img-wrap"><img src="https://image.qwenlm.ai/public_source/7ed4342e-3061-4aef-8046-d5bdaa797c00/1a87b172e-366c-4c18-a1b8-58c4dda7591e.png" alt="Electra-Core Voter Roll Extraction"></div>
+      <div class="info">
+        <h3>Electra-Core: Voter Roll Extraction</h3>
+        <span>OpenCV · Tesseract OCR · Streamlit</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-header fade-in">
+    <h2>Experience</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card fade-in">
+      <p>"Improved performance across 12 production websites, reducing load time from 45s to 5.6s, LCP from 9.6s to 0.9s, and TTFB from 4.0s to 0.3s. Supported platforms serving 31k monthly visitors."</p>
+      <div class="author">Matrix Education</div>
+      <div class="role">Software Engineering Intern · Jan 2026 – Present</div>
+    </div>
+    <div class="testimonial-card fade-in">
+      <p>"Designed reusable CMS architectures and browser automation workflows using Playwright and Express.js across multiple production websites. Mitigated production SEO spam incidents through database auditing."</p>
+      <div class="author">Matrix Education</div>
+      <div class="role">Production Optimization & Security</div>
+    </div>
+    <div class="testimonial-card fade-in">
+      <p>"Analyzed complex ATS & SCADA architectures to author a technical training suite, subsequently adopted as the standard onboarding material for new interns at Jaipur Metro Rail Corporation."</p>
+      <div class="author">Jaipur Metro Rail Corporation</div>
+      <div class="role">Intern · May 2024 – June 2024</div>
+    </div>
+    <div class="testimonial-card fade-in">
+      <p>"Built resilient ingestion pipelines with schema validation, anomaly detection, audit logging, and automated recovery to handle failures and source changes without data loss across 4 judicial sources."</p>
+      <div class="author">Judicial Analytics Platform</div>
+      <div class="role">Distributed Systems & ML Pipelines</div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-header fade-in">
+    <h2>Thoughts</h2>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card fade-in">
+      <div class="date">Jan 2026</div>
+      <h3>Building Resilient Automation Pipelines</h3>
+      <p>How finite state machines and durable job queues enable automatic crash recovery within 60 seconds for long-running browser workloads.</p>
+    </div>
+    <div class="blog-card fade-in">
+      <div class="date">Dec 2025</div>
+      <h3>The Role of OCR in Document Intelligence</h3>
+      <p>Why strategy-based extraction engines with automatic fallback handling unlock structured data from degraded PDFs at scale.</p>
+    </div>
+  </div>
+  <div class="blog-cta fade-in">
+    <p>See how I engineer systems with clarity and resilience — explore my work</p>
+    <a href="https://github.com" target="_blank">View All Work</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="contact-header fade-in">
+    <h2>Let's talk.</h2>
+    <p>Have a project or opportunity? Fill out the form, and I'll get back to you soon.</p>
+  </div>
+  <form class="contact-form fade-in" onsubmit="handleSubmit(event)">
+    <input type="text" placeholder="Name" required>
+    <input type="email" placeholder="Email" required>
+    <textarea placeholder="Your Project" required></textarea>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>Building Systems for Scale.</h3>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#hero-section">Home</a></li>
+        <li><a href="#skills">About Me</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:abhinay2003kalkhanday@gmail.com" class="email">abhinay2003kalkhanday@gmail.com</a></li>
+        <li><a href="tel:9875800189">+91 98758 00189</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>ABHINAY KALKHANDAY</span>
+    <span class="framer-note">B.Tech in Computer Science (IoT & Intelligent Systems) · Manipal University Jaipur · Expected 2026</span>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Form submit handler
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    const original = btn.textContent;
+    btn.textContent = 'Sent ✓';
+    btn.style.background = '#22c55e';
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = '';
+      e.target.reset();
+    }, 2000);
+  }
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Only show the full screen button if we are inside an iframe
+  if (window.self !== window.top) {
+      document.getElementById('fullscreen-btn').style.display = 'block';
+  }
+</script>
+
+<a href="#" id="fullscreen-btn" onclick="window.open(window.location.href, '_blank'); return false;">
+    <svg style="width:14px; height:14px; vertical-align:middle; margin-right:6px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+    View Full Screen
+</a>
+
 </body>
 </html>
+
