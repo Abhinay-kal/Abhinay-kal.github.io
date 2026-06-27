@@ -775,3 +775,125 @@ document.querySelector('.tabs-container').addEventListener('dblclick', (e) => {
         togglePreview();
     }
 });
+
+// Toast Notification System
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.style.position = 'fixed';
+    toast.style.bottom = '20px';
+    toast.style.right = '20px';
+    toast.style.background = 'var(--bg-secondary)';
+    toast.style.color = 'var(--text-primary)';
+    toast.style.border = '1px solid var(--border-color)';
+    toast.style.padding = '12px 16px';
+    toast.style.borderRadius = '4px';
+    toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.5)';
+    toast.style.zIndex = '10000';
+    toast.style.fontFamily = "'Inter', sans-serif";
+    toast.style.fontSize = '13px';
+    toast.style.display = 'flex';
+    toast.style.alignItems = 'center';
+    toast.style.gap = '10px';
+    toast.style.transform = 'translateX(150%)';
+    toast.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    
+    toast.innerHTML = `<i class="fas fa-bell" style="color: var(--accent);"></i> <span>${message}</span>`;
+    document.body.appendChild(toast);
+    
+    // Animate in
+    requestAnimationFrame(() => {
+        toast.style.transform = 'translateX(0)';
+    });
+    
+    // Animate out and remove
+    setTimeout(() => {
+        toast.style.transform = 'translateX(150%)';
+        setTimeout(() => toast.remove(), 400);
+    }, 3000);
+}
+
+// Window Controls
+function closeWindow() {
+    const container = document.querySelector('.main-container');
+    const titlebar = document.querySelector('.titlebar');
+    
+    container.style.transition = 'all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+    container.style.transform = 'scale(0) rotate(720deg)';
+    container.style.opacity = '0';
+    
+    titlebar.style.transition = 'all 0.6s ease';
+    titlebar.style.transform = 'translateY(-100%)';
+    
+    showToast("You can't escape my portfolio that easily! Reloading...");
+    
+    setTimeout(() => {
+        location.reload();
+    }, 3000);
+}
+
+function minimizeWindow() {
+    const container = document.querySelector('.main-container');
+    container.style.transition = 'all 0.5s ease-in';
+    container.style.transform = 'translateY(100vh)';
+    
+    showToast("Wait, where did it go? Oh right, this is just a website! Bring it back!");
+    
+    setTimeout(() => {
+        container.style.transition = 'all 0.5s ease-out';
+        container.style.transform = 'translateY(0)';
+    }, 2500);
+}
+
+function maximizeWindow() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+            console.log(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+}
+
+// Menus
+function menuAction(menu) {
+    if (menu === 'Run') {
+        // Confetti!
+        if (typeof confetti === 'function') {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.1 }
+            });
+        }
+        setTimeout(() => {
+            showToast("Compilation Successful! Zero bugs found in Abhinay's code! 🎉");
+        }, 500);
+    } else if (menu === 'File') {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('hidden');
+        document.getElementById('sidebarResizer').classList.toggle('hidden');
+    } else if (menu === 'View') {
+        const isDark = document.documentElement.style.getPropertyValue('--bg-primary') === '';
+        if (isDark) {
+            document.documentElement.style.setProperty('--bg-primary', '#ffffff');
+            document.documentElement.style.setProperty('--bg-secondary', '#f3f3f3');
+            document.documentElement.style.setProperty('--bg-tertiary', '#e8e8e8');
+            document.documentElement.style.setProperty('--bg-sidebar', '#f3f3f3');
+            document.documentElement.style.setProperty('--bg-tab-active', '#ffffff');
+            document.documentElement.style.setProperty('--bg-tab-inactive', '#ececec');
+            document.documentElement.style.setProperty('--text-primary', '#333333');
+            document.documentElement.style.setProperty('--text-secondary', '#666666');
+            document.documentElement.style.setProperty('--text-bright', '#000000');
+            document.documentElement.style.setProperty('--bg-terminal', '#f8f8f8');
+        } else {
+            document.documentElement.style.cssText = '';
+        }
+    } else if (menu === 'Edit') {
+        document.getElementById('editorContent').innerHTML = '<div style="padding: 40px; font-size: 24px; text-align: center; color: var(--accent);">Editing in progress by an invisible AI... 🤖</div>';
+        setTimeout(() => renderContent(), 2000);
+    } else if (menu === 'Go') {
+        window.open('preview.html', '_blank');
+    }
+}
