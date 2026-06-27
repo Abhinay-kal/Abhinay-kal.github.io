@@ -49,6 +49,27 @@
             margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.2);
         }
         .card h3 { margin-top: 0; color: #00c6ff; }
+        
+        #fullscreen-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+            display: none;
+            transition: background 0.3s;
+            text-decoration: none;
+            z-index: 1000;
+        }
+        #fullscreen-btn:hover {
+            background: rgba(0, 198, 255, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -70,5 +91,17 @@
             A stateful job orchestration system for browser workloads using Node.js, Express, and Playwright, featuring persistent queues and auto-recovery mechanisms.</p>
         </div>
     </div>
+    
+    <a href="#" id="fullscreen-btn" onclick="window.open(window.location.href, '_blank'); return false;">
+        <svg style="width:14px; height:14px; vertical-align:middle; margin-right:6px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+        View Full Screen
+    </a>
+    
+    <script>
+        // Only show the button if we are inside an iframe
+        if (window.self !== window.top) {
+            document.getElementById('fullscreen-btn').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
