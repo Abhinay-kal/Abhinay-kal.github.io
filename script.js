@@ -898,3 +898,66 @@ function menuAction(menu) {
         showToast('Tip: click the files in the Explorer, or ask Copilot anything about Abhinay.');
     }
 }
+
+
+// Activity bar popover menus (Accounts / Settings)
+function closeActivityMenu() {
+    const m = document.getElementById('activityMenu');
+    if (m) m.remove();
+}
+
+function openActivityMenu(anchor, kind) {
+    const existing = document.getElementById('activityMenu');
+    const reopen = existing && existing.dataset.kind === kind;
+    closeActivityMenu();
+    if (reopen) return;
+
+    const isHidden = id => document.getElementById(id).classList.contains('hidden');
+    const items = kind === 'accounts' ? [
+        { head: ['Abhinay Kalkhanday', 'Software Engineer · Jaipur, IN'] },
+        { icon: 'fab fa-github', label: 'GitHub', href: 'https://github.com/Abhinay-kal' },
+        { icon: 'fab fa-linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/abhinay-kalkhanday' },
+        { icon: 'fas fa-envelope', label: 'Email me', href: 'mailto:abhinay2003kalkhanday@gmail.com' },
+        { icon: 'fas fa-file-pdf', label: 'Download résumé', href: 'Abhinay_Kalkhanday_Resume.pdf', download: true },
+    ] : [
+        { head: ['Settings', 'Customize this workspace'] },
+        { icon: 'fas fa-circle-half-stroke', label: 'Toggle light / dark theme', run: () => menuAction('View') },
+        { icon: 'fas fa-folder-tree', label: 'Sidebar', state: !isHidden('sidebar'), run: () => menuAction('File') },
+        { icon: 'fas fa-terminal', label: 'Terminal panel', state: !isHidden('terminalPanel'), run: toggleTerminal },
+        { icon: 'fas fa-columns', label: 'Live preview', run: togglePreview },
+        { icon: 'fas fa-up-right-and-down-left-from-center', label: 'Full screen', run: maximizeWindow },
+    ];
+
+    const menu = document.createElement('div');
+    menu.id = 'activityMenu';
+    menu.className = 'activity-menu';
+    menu.dataset.kind = kind;
+    items.forEach(it => {
+        if (it.head) {
+            menu.insertAdjacentHTML('beforeend', `<div class="activity-menu-head"><strong>${it.head[0]}</strong><span>${it.head[1]}</span></div>`);
+            return;
+        }
+        const el = document.createElement(it.href ? 'a' : 'div');
+        el.className = 'activity-menu-item';
+        if (it.href) {
+            el.href = it.href;
+            if (!it.href.startsWith('mailto:') && !it.download) { el.target = '_blank'; el.rel = 'noopener'; }
+            if (it.download) el.setAttribute('download', '');
+        }
+        el.innerHTML = `<i class="${it.icon}"></i><span>${it.label}</span>` +
+            (it.state !== undefined ? `<span class="state">${it.state ? 'On' : 'Off'}</span>` : '');
+        el.addEventListener('click', () => { if (it.run) it.run(); closeActivityMenu(); });
+        menu.appendChild(el);
+    });
+    document.body.appendChild(menu);
+
+    const r = anchor.getBoundingClientRect();
+    menu.style.left = (r.right + 6) + 'px';
+    menu.style.bottom = Math.max(8, window.innerHeight - r.bottom) + 'px';
+    event.stopPropagation();
+}
+
+document.addEventListener('click', e => {
+    if (!e.target.closest('#activityMenu') && !e.target.closest('.activity-bottom')) closeActivityMenu();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeActivityMenu(); });
