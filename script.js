@@ -894,6 +894,7 @@ function menuAction(menu) {
         document.getElementById('editorContent').innerHTML = '<div style="padding: 40px; font-size: 24px; text-align: center; color: var(--accent);">Editing in progress by an invisible AI... 🤖</div>';
         setTimeout(() => renderContent(), 2000);
     } else if (menu === 'Go') {
-        window.open('preview.html', '_blank');
+        window.open('preview.html', '_blank');    } else if (menu === 'Help') {
+        showToast('Tip: click the files in the Explorer, or ask Copilot anything about Abhinay.');
     }
 }

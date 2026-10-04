@@ -14,24 +14,25 @@
     <div class="titlebar">
         <div class="titlebar-left">
             <div class="titlebar-controls">
-                <span class="ctrl-close"></span>
-                <span class="ctrl-minimize"></span>
-                <span class="ctrl-maximize"></span>
+                <span class="ctrl-close" onclick="closeWindow()" title="Close"></span>
+                <span class="ctrl-minimize" onclick="minimizeWindow()" title="Minimize"></span>
+                <span class="ctrl-maximize" onclick="maximizeWindow()" title="Full screen"></span>
             </div>
             <div class="titlebar-menu">
-                <span>File</span>
-                <span>Edit</span>
-                <span>View</span>
-                <span>Go</span>
-                <span>Run</span>
+                <span onclick="menuAction('File')" style="cursor:pointer;">File</span>
+                <span onclick="menuAction('Edit')" style="cursor:pointer;">Edit</span>
+                <span onclick="menuAction('View')" style="cursor:pointer;">View</span>
+                <span onclick="menuAction('Go')" style="cursor:pointer;">Go</span>
+                <span onclick="menuAction('Run')" style="cursor:pointer;">Run</span>
                 <span onclick="toggleTerminal()" style="cursor:pointer;">Terminal</span>
-                <span>Help</span>
+                <span onclick="menuAction('Help')" style="cursor:pointer;">Help</span>
             </div>
         </div>
         <div class="titlebar-center">Abhinay Kalkhanday | Portfolio</div>
-        <div class="titlebar-right">\n            <div class="titlebar-btn" title="Toggle Live Preview" onclick="togglePreview()"><i class="fas fa-columns"></i></div>
-            <div class="titlebar-btn"><i class="fas fa-search"></i></div>
-            <div class="titlebar-btn"><i class="fas fa-ellipsis-h"></i></div>
+        <div class="titlebar-right">
+            <div class="titlebar-btn" title="Toggle Live Preview" onclick="togglePreview()"><i class="fas fa-columns"></i></div>
+            <div class="titlebar-btn" title="Search" onclick="document.querySelector('.activity-icon[title=Search]').click()"><i class="fas fa-search"></i></div>
+            <div class="titlebar-btn" title="More" onclick="showToast('More actions coming soon')"><i class="fas fa-ellipsis-h"></i></div>
         </div>
     </div>
 
@@ -215,6 +216,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
