@@ -1,0 +1,18 @@
+name = "abhinay-copilot"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://abhinay-kal.github.io,http://localhost:8000"
+GROQ_MODEL = "llama-3.3-70b-versatile"
+FALLBACK_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+DAILY_LIMIT_PER_IP = "20"
+DAILY_LIMIT_GLOBAL = "800"
+
+# Fallback model runs on Cloudflare itself (no extra key needed)
+[ai]
+binding = "AI"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "e6daf06788854d8d964a4d9712322f1c"

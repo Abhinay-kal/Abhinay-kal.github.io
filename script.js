@@ -479,105 +479,98 @@ function askCopilot(msg) {
     sendCopilotMessage();
 }
 
-function sendCopilotMessage() {
+const COPILOT_API = 'https://abhinay-copilot.abhinay-kal.workers.dev';
+const copilotHistory = [];
+let copilotBusy = false;
+
+function copilotLightTheme() {
+    const v = {'--bg-primary':'#ffffff','--bg-secondary':'#f3f3f3','--bg-tertiary':'#e8e8e8','--bg-sidebar':'#f3f3f3',
+        '--bg-tab-active':'#ffffff','--bg-tab-inactive':'#ececec','--text-primary':'#333333','--text-secondary':'#666666',
+        '--text-bright':'#000000','--bg-terminal':'#f8f8f8'};
+    Object.entries(v).forEach(([k, val]) => document.documentElement.style.setProperty(k, val));
+}
+
+// Page-control commands that are handled in the browser, not by the LLM.
+function copilotLocalCommand(msg) {
+    const lower = msg.toLowerCase();
+    if (lower.startsWith('open ')) {
+        const name = lower.slice(5).trim();
+        const key = Object.keys(fileContents).find(k => fileContents[k].name.toLowerCase().includes(name) || k.toLowerCase().includes(name));
+        if (key) { openFile(key); return `Opened **${fileContents[key].name}** in the editor.`; }
+        return `I couldn't find a file matching "${name}". Try home.tsx or README.md.`;
+    }
+    if (lower.includes('light mode') || lower.includes('light theme')) { copilotLightTheme(); return 'Switched to the light theme. ☀️'; }
+    if (lower.includes('dark mode') || lower.includes('dark theme')) { document.documentElement.style.cssText = ''; return 'Back to the dark theme. 🌙'; }
+    if (lower.includes('show preview') || lower.includes('live preview')) {
+        const pane = document.getElementById('previewPane');
+        if (pane && pane.classList.contains('hidden')) { togglePreview(); return 'Opened the Live Preview panel. 👀'; }
+        return 'The Live Preview panel is already open.';
+    }
+    return null;
+}
+
+function copilotFormat(text) {
+    const esc = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return esc
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/`(.*?)`/g, '<code style="background:var(--bg-input);padding:2px 4px;border-radius:3px;font-family:monospace;">$1</code>')
+        .replace(/(https?:\/\/[^\s<)]+)/g, '<a href="$1" target="_blank" rel="noopener" style="color:var(--accent);">$1</a>')
+        .replace(/(^|\n)[*-] /g, '$1• ')
+        .replace(/\n/g, '<br>');
+}
+
+function copilotAddMessage(role, html) {
+    const messages = document.getElementById('copilotMessages');
+    const el = document.createElement('div');
+    el.className = `copilot-msg ${role} fade-in`;
+    el.innerHTML = html;
+    messages.appendChild(el);
+    messages.scrollTop = messages.scrollHeight;
+    return el;
+}
+
+function copilotSetRemaining(n) {
+    const footer = document.querySelector('.copilot-footer span');
+    if (footer) footer.textContent = `${n} message${n === 1 ? '' : 's'} left today · AI can make mistakes`;
+}
+
+async function sendCopilotMessage() {
     const input = document.getElementById('copilotInput');
     const msg = input.value.trim();
-    if(!msg) return;
-    
-    const messages = document.getElementById('copilotMessages');
-    
-    // Add user message
-    const userMsg = document.createElement('div');
-    userMsg.className = 'copilot-msg user fade-in';
-    userMsg.innerText = msg;
-    messages.appendChild(userMsg);
-    
+    if (!msg || copilotBusy) return;
     input.value = '';
-    messages.scrollTop = messages.scrollHeight;
-    
-    // Simulate thinking state
-    const thinkingMsg = document.createElement('div');
-    thinkingMsg.className = 'copilot-msg bot fade-in';
-    thinkingMsg.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
-    messages.appendChild(thinkingMsg);
-    messages.scrollTop = messages.scrollHeight;
-    
-    // Simulate AI response delay
-    setTimeout(() => {
-        messages.removeChild(thinkingMsg);
-        
-        const botMsg = document.createElement('div');
-        botMsg.className = 'copilot-msg bot fade-in';
-        
-        const lowerMsg = msg.toLowerCase();
-        let responseText = "";
-        
-        // Command parsing
-        if(lowerMsg.includes('open ')) {
-            const fileName = lowerMsg.split('open ')[1].trim();
-            const validFiles = Object.keys(fileContents).map(k => fileContents[k].name.toLowerCase());
-            const fileKey = Object.keys(fileContents).find(k => fileContents[k].name.toLowerCase().includes(fileName) || k.toLowerCase().includes(fileName));
-            
-            if(fileKey) {
-                openFile(fileKey);
-                responseText = `I've opened **${fileContents[fileKey].name}** for you in the editor.`;
-            } else {
-                responseText = `I couldn't find a file matching "${fileName}". Try opening home.tsx or README.md.`;
-            }
-        } 
-        else if(lowerMsg.includes('light mode') || lowerMsg.includes('light theme')) {
-            document.documentElement.style.setProperty('--bg-primary', '#ffffff');
-            document.documentElement.style.setProperty('--bg-secondary', '#f3f3f3');
-            document.documentElement.style.setProperty('--bg-tertiary', '#e8e8e8');
-            document.documentElement.style.setProperty('--bg-sidebar', '#f3f3f3');
-            document.documentElement.style.setProperty('--bg-tab-active', '#ffffff');
-            document.documentElement.style.setProperty('--bg-tab-inactive', '#ececec');
-            document.documentElement.style.setProperty('--text-primary', '#333333');
-            document.documentElement.style.setProperty('--text-secondary', '#666666');
-            document.documentElement.style.setProperty('--text-bright', '#000000');
-            document.documentElement.style.setProperty('--bg-terminal', '#f8f8f8');
-            responseText = "Switched to Light Theme! ☀️ (Though between you and me, real developers use Dark Theme...)";
-        }
-        else if(lowerMsg.includes('dark mode') || lowerMsg.includes('dark theme')) {
-            document.documentElement.style.cssText = '';
-            responseText = "Back to the one true Dark Theme! 🌙";
-        }
-        else if(lowerMsg.includes('show preview') || lowerMsg.includes('live preview')) {
-            const previewPane = document.getElementById('previewPane');
-            if (previewPane && previewPane.classList.contains('hidden')) {
-                togglePreview();
-                responseText = "I've opened the Live Preview panel for you! 👀";
-            } else {
-                responseText = "The Live Preview panel is already open! You can close it by clicking the 'X' on the panel.";
-            }
-        }
-        else if(lowerMsg.includes('projects')) {
-            responseText = "Abhinay has built some amazing projects! Notable ones include:\n\n• **Content Operations Platform**: Node.js & Playwright job orchestrator.\n• **Judicial Analytics**: FastAPI & Celery system analyzing Indian court data.\n• **Electra-Core**: OpenCV & OCR pipeline for voter roll extraction.\n\nCheck out `projects.js` for more details!";
-        } else if(lowerMsg.includes('experience') || lowerMsg.includes('intern')) {
-            responseText = "He is currently a **Software Engineering Intern at Matrix Education** in Jaipur. He's been doing some heavy lifting there:\n• Reduced page load times from 45s → 5.6s\n• Optimized 12 production websites\n• Handled 388k requests/month with Cloudflare caching.\n\nSee `experience.ts` for his full timeline.";
-        } else if(lowerMsg.includes('contact') || lowerMsg.includes('email') || lowerMsg.includes('hire')) {
-            responseText = "You can reach him via email at **abhinay2003kalkhanday@gmail.com**, or check out his LinkedIn and GitHub. The `contact.css` file has all the links you need!";
-        } else if(lowerMsg.includes('skill') || lowerMsg.includes('tech') || lowerMsg.includes('stack')) {
-            responseText = "Abhinay's tech stack is quite impressive! He works with:\n\n**Backend**: FastAPI, Node.js, Express.js\n**Languages**: Python, Java, JavaScript, TypeScript\n**Databases**: PostgreSQL, Redis, MongoDB\n**DevOps/Auto**: Docker, GitHub Actions, Playwright, Celery\n\nYou can see the full list in `skills.json`.";
-        } else if(lowerMsg.includes('education') || lowerMsg.includes('degree')) {
-            responseText = "He is pursuing a B.Tech in Computer Science (IoT & Intelligent Systems) at Manipal University Jaipur, and is set to graduate in 2026!";
-        } else if(lowerMsg.includes('hello') || lowerMsg.includes('hi ') || lowerMsg === 'hi') {
-            responseText = "Hello! 👋 I'm Abhinay's AI Copilot. You can ask me about his projects, skills, or even ask me to 'open projects.js' or 'switch to light theme'!";
-        } else {
-            responseText = "That's a great question! Abhinay is a versatile developer specializing in performance engineering, distributed systems, and browser automation. Feel free to explore the files on the left to learn more about his background, or ask me something specific!";
-        }
-        
-        // Format responseText (bolding and code blocks)
-        responseText = responseText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        responseText = responseText.replace(/`(.*?)`/g, '<code style="background:var(--bg-input);padding:2px 4px;border-radius:3px;font-family:monospace;color:var(--orange);">$1</code>');
-        responseText = responseText.replace(/\n/g, '<br>');
-        
-        botMsg.innerHTML = responseText;
-        
-        messages.appendChild(botMsg);
-        messages.scrollTop = messages.scrollHeight;
-    }, 800 + Math.random() * 800); // Random delay between 0.8s and 1.6s
+
+    copilotAddMessage('user', copilotFormat(msg));
+    const local = copilotLocalCommand(msg);
+    if (local) { copilotAddMessage('bot', copilotFormat(local)); return; }
+
+    copilotBusy = true;
+    const thinking = copilotAddMessage('bot', '<div class="typing-indicator"><span></span><span></span><span></span></div>');
+    copilotHistory.push({ role: 'user', content: msg });
+    try {
+        const res = await fetch(COPILOT_API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: copilotHistory.slice(-6) }),
+        });
+        const data = await res.json();
+        const reply = data.reply || data.error || 'Something went wrong. Please try again.';
+        thinking.innerHTML = copilotFormat(reply);
+        if (res.ok) copilotHistory.push({ role: 'assistant', content: reply });
+        else copilotHistory.pop();
+        if (typeof data.remaining === 'number') copilotSetRemaining(data.remaining);
+    } catch (e) {
+        copilotHistory.pop();
+        thinking.innerHTML = copilotFormat("I can't reach the server right now. You can email Abhinay at **abhinay2003kalkhanday@gmail.com**.");
+    } finally {
+        copilotBusy = false;
+        document.getElementById('copilotMessages').scrollTop = document.getElementById('copilotMessages').scrollHeight;
+    }
 }
+
+document.getElementById('copilotInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendCopilotMessage(); }
+});
 
 // Initialize UI
 renderContent();
